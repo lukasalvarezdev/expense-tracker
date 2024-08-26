@@ -53,15 +53,19 @@ def calculate(operations):
             previous_value = operations[index - 1]
 
             if index == 0:
-                result = value
+                result = float(value)
                 continue
 
             if not is_operation(previous_value):
                 continue
 
-            result = do(result, value, previous_value)
+            result = do(result, float(value), previous_value)
         elif is_operation(value):
             continue
+        elif should_get_result(value):
+            break
+        else:
+            raise Exception("Invalid value")
     return result
 
 

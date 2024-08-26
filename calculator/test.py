@@ -3,6 +3,7 @@ import unittest
 from helpers import (
     add,
     ask_for_next_action,
+    calculate,
     divide,
     do,
     is_number,
@@ -79,6 +80,20 @@ class TestCalculatorFunctions(unittest.TestCase):
     def test_get_result_action(self):
         result = ask_for_next_action("=", ["operation"], ["5", "+", "3"])
         self.assertEqual(result, ["5", "+", "3", "="])
+
+    def test_calculate(self):
+        self.assertEqual(calculate(["2", "+", "3", "="]), 5)
+        self.assertEqual(
+            calculate(["10", "-", "2", "=", "2", "*", "3", "="]), 8
+        )  # 8 because it exits early
+        self.assertEqual(calculate(["5", "*", "2", "+", "3", "="]), 13)
+        self.assertEqual(
+            calculate(["6", "/", "3", "=", "2", "+", "4", "="]), 2
+        )  # 2 because it exits early
+
+    def test_invalid_value(self):
+        with self.assertRaises(Exception):
+            calculate(["2", "+", "3", "a"])
 
 
 if __name__ == "__main__":
