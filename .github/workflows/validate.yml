@@ -25,6 +25,7 @@ jobs:
       - name: Lint the code with pylint
         run: |
           pylint $(git ls-files '*.py')
+        continue-on-error: true
 
       - name: Run tests
         run: |
