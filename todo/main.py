@@ -1,6 +1,5 @@
 import datetime
 import json
-from typing import Union
 from uuid import uuid4
 
 import aiofiles
@@ -31,8 +30,19 @@ def get_all_tasks():
 
 
 @app.get("/tasks/{task_id}")
-def get_task_by_id(task_id: int, q: Union[str, None] = None):
-    return {"task_id": task_id, "q": q}
+def get_task_by_id(
+    task_id: int,
+):
+    tasks = get_tasks_from_db()
+
+    task_exists = any(task["id"] == task_id for task in tasks)
+
+    if not task_exists:
+        raise HTTPException(status_code=404, detail="Task not found")
+
+    for i, task in enumerate(tasks):
+        if task["id"] == task_id:
+            return tasks[i]
 
 
 @app.post("/tasks")
