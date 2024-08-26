@@ -7,17 +7,7 @@ def is_number(val):
 
 
 def is_operation(val):
-    match val:
-        case "*":
-            return True
-        case "/":
-            return True
-        case "-":
-            return True
-        case "+":
-            return True
-        case _:
-            return False
+    return val in ["+", "-", "*", "/"]
 
 
 def should_get_result(val):

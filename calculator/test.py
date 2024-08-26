@@ -2,6 +2,7 @@ import unittest
 
 from helpers import (
     add,
+    ask_for_next_action,
     divide,
     do,
     is_number,
@@ -56,6 +57,28 @@ class TestCalculatorFunctions(unittest.TestCase):
         self.assertEqual(do(6, 3, "/"), 2)
         with self.assertRaises(Exception):
             do(5, 3, "^")
+
+    def test_number_action(self):
+        result = ask_for_next_action("5", ["number"], [])
+        self.assertEqual(result, [5.0])
+
+    def test_invalid_number_action(self):
+        with self.assertRaises(Exception) as context:
+            ask_for_next_action("5", ["operation"], [])
+        self.assertTrue("Only avaliable actions are" in str(context.exception))
+
+    def test_operation_action(self):
+        result = ask_for_next_action("+", ["operation"], [])
+        self.assertEqual(result, ["+"])
+
+    def test_invalid_operation_action(self):
+        with self.assertRaises(Exception) as context:
+            ask_for_next_action("+", ["number"], [])
+        self.assertTrue("Only avaliable actions are" in str(context.exception))
+
+    def test_get_result_action(self):
+        result = ask_for_next_action("=", ["operation"], ["5", "+", "3"])
+        self.assertEqual(result, ["5", "+", "3", "="])
 
 
 if __name__ == "__main__":
